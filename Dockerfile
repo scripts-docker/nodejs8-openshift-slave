@@ -5,7 +5,17 @@ RUN curl --silent --location https://rpm.nodesource.com/setup_8.x | bash -
 RUN yum -y install nodejs && yum clean all -y
 
 RUN chown -R 1001:0 $HOME && \
-    chmod -R g+rw $HOME
+    chmod -R g+rw $HOME && \
+    mkdir -p $HOME/sonar-scanner
+
+COPY sonar-scanner $HOME/sonar-scanner
+
+RUN cd $HOME/sonar-scanner/bin && \
+    export PATH="$(pwd)":$PATH && \
+    chmod +x sonar-scanner
+
+RUN chown -R 1001:0 $HOME && \
+    chmod -R g+rw $HOME 
     
 COPY google-chrome.repo /etc/yum.repos.d/ 
 RUN yum -y install google-chrome-stable && yum clean all -y
