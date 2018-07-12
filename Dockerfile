@@ -10,9 +10,9 @@ RUN chown -R 1001:0 $HOME && \
 
 COPY sonar-scanner $HOME/sonar-scanner
 
-RUN cd $HOME/sonar-scanner/bin && \
-    export PATH="$(pwd)":$PATH && \
-    chmod +x sonar-scanner
+ENV PATH=$PATH:$HOME/sonar-scanner/bin
+
+RUN chmod +x $HOME/sonar-scanner/bin/sonar-scanner
 
 RUN chown -R 1001:0 $HOME && \
     chmod -R g+rw $HOME 
